@@ -27,7 +27,9 @@ public class NumberParser {
         int newLineIndex = input.indexOf("\\n");
 
         System.out.println("newLineIndex : " + newLineIndex);
-
+        if (newLineIndex == -1) {
+            throw new IllegalArgumentException("유효하지 않은 입력 : 입력에 개행 문자가 없습니다.");
+        }
         String delimiter = parseDelimiter(input, newLineIndex);
         System.out.println("delimiter : " + delimiter);
         String numbersPart = input.substring(newLineIndex + 2);
@@ -37,6 +39,9 @@ public class NumberParser {
         int[] numbers = new int[strNumbers.length];
         for (int i = 0; i < strNumbers.length; i++) {
             numbers[i] = Integer.parseInt(strNumbers[i]);
+            if (numbers[i] < 0) {
+                throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+            }
         }
         return numbers;
     }
@@ -48,6 +53,9 @@ public class NumberParser {
 
         for (int i = 0; i < strNumbers.length; i++) {
             numbers[i] = Integer.parseInt(strNumbers[i]);
+            if (numbers[i] < 0) {
+                throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+            }
         }
         return numbers;
     }
