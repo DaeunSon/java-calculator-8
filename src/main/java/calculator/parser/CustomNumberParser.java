@@ -25,6 +25,10 @@ public class CustomNumberParser implements NumberParser {
 
     private String parseDelimiter(String input, int newLineIndex) {
         int delimiterIndex = newLineIndex - 1;
+        String def = input.substring(2, newLineIndex);
+        if (def.length() != 1){
+            throw new IllegalArgumentException("유효하지 않은 입력 : 구분자는 한 글자여야 합니다.");
+        }
         return String.valueOf(input.charAt(delimiterIndex));
     }
 }
