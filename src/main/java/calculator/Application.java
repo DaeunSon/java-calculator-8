@@ -1,41 +1,34 @@
 package calculator;
 
+import calculator.core.AddCalculator;
+import calculator.core.Calculator;
+import calculator.io.ConsoleInput;
+import calculator.io.ConsoleOutput;
+import calculator.io.InputPort;
+import calculator.io.OutputPort;
+import calculator.parser.CustomNumberParser;
+import calculator.parser.DefaultNumberParser;
 import calculator.parser.NumberParser;
-import camp.nextstep.edu.missionutils.Console;
 
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        Calculator calculator = new Calculator();
-        int result;
+        InputPort input = new ConsoleInput();
+        OutputPort output = new ConsoleOutput();
+        NumberParser parser;
+        Calculator calculator = new AddCalculator();
 
-        System.out.println("덧셈할 문자열을 입력해 주세요.");
-        try {
-            String input = Console.readLine();
-            System.out.println("입력받은 문자열 : " + input);
+        output.printLine("덧셈할 문자열을 입력해 주세요.");
+        String line = input.readLine();
 
-            if (input.isEmpty()) {
-                result = 0;
-            }
-
-            else {
-                int[] numbers = new int[input.length()];
-
-                NumberParser parser = new NumberParser();
-                numbers = parser.parseNumbers(input);
-
-                for (int i = 0; i < numbers.length; i++) {
-                    System.out.println("파싱된 숫자 : " + numbers[i]);
-                }
-
-                result = calculator.calculate(numbers);
-
-            }
-            System.out.println("계산 결과 : " + result);
+        if (line != null && line.startsWith("//")) {
+            parser = new CustomNumberParser();
+        } else {
+            parser = new DefaultNumberParser();
         }
 
-        catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
-        }
+        int[] numbers = parser.parseNumbers(line);
+        int result = calculator.calculate(numbers);
+        output.printLine("결과 : " + result);
     }
 }
